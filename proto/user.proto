@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "pb/";
+
+message GetUserByIdReq {
+  int32 id = 1;
+}
+
+message GetUsersByIdsReq {
+  repeated int32 ids = 1;
+}
+
+message CreateUserReq {
+  string first_name = 1;
+  string last_name = 2;
+  string email = 3;
+}
+
+message NewUserIdResp {
+  int32 id = 1;
+}
+
+message PublicUserInfo {
+  int32 id = 1;
+  string first_name = 2;
+  string last_name = 3;
+}
+
+message PublicUserInfoResp {
+  PublicUserInfo user = 1;
+}
+
+message PublicUsersInfoResp {
+  repeated PublicUserInfo users = 1;
+}
+
+service UserService {
+  rpc GetUserById(GetUserByIdReq) returns (PublicUserInfoResp);
+  rpc GetUsersByIds(GetUsersByIdsReq) returns (PublicUsersInfoResp);
+  rpc CreateUser(CreateUserReq) returns (NewUserIdResp);
+}

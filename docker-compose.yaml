@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    depends_on:
+      - mysql
+    environment:
+      DB_DSN: "root:@tcp(mysql:3306)/demo_db?charset=utf8mb4&parseTime=True&loc=Local"
+      JWT_SECRET: "very-important-please-change-it!"
+      GIN_PORT: "3000"
+      GRPC_PORT: "3300"
+    ports:
+      - "3000:3000"
+    networks:
+      - intranet
+  mysql:
+    image: mysql:8.0.32
+    volumes:
+      - "./data.sql:/docker-entrypoint-initdb.d/data.sql"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "demo_db"
+    ports:
+      - "3310:3306"
+    networks:
+      - intranet
+networks:
+  intranet:

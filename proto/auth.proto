@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package pb;
+
+option go_package = "pb/";
+
+message IntrospectReq {
+  string access_token = 1;
+}
+
+message IntrospectResp {
+  string tid = 1;
+  string sub = 2;
+}
+
+service AuthService {
+    rpc IntrospectToken(IntrospectReq) returns (IntrospectResp);
+}
