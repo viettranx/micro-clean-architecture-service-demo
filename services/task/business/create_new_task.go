@@ -18,7 +18,7 @@ func (biz *business) CreateNewTask(ctx context.Context, data *entity.TaskDataCre
 		return core.ErrBadRequest.WithError(err.Error())
 	}
 
-	if err := biz.repository.AddNewTask(ctx, data); err != nil {
+	if err := biz.taskRepo.AddNewTask(ctx, data); err != nil {
 		return core.ErrInternalServerError.WithError(entity.ErrCannotCreateTask.Error())
 	}
 

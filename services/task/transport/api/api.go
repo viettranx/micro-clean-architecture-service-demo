@@ -14,8 +14,8 @@ type ServiceContext interface {
 
 type Business interface {
 	CreateNewTask(ctx context.Context, data *entity.TaskDataCreation) error
-	GetTaskDetails(ctx context.Context, id int, extra ...string) (*entity.Task, error)
-	ListTasks(ctx context.Context, filter *entity.Filter, paging *core.Paging, extras ...string) ([]entity.Task, error)
+	GetTaskById(ctx context.Context, id int) (*entity.Task, error)
+	ListTasks(ctx context.Context, filter *entity.Filter, paging *core.Paging) ([]entity.Task, error)
 	UpdateTask(ctx context.Context, id int, data *entity.TaskDataUpdate) error
 	DeleteTask(ctx context.Context, id int) error
 	//SetTaskToDone(ctx context.Context, id int) error

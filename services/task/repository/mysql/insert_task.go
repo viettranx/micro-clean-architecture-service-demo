@@ -6,8 +6,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (store *mysqlStore) InsertTask(ctx context.Context, data *entity.TaskDataCreation) error {
-	if err := store.db.Create(data).Error; err != nil {
+func (repo *mysqlRepo) AddNewTask(ctx context.Context, data *entity.TaskDataCreation) error {
+	if err := repo.db.Create(data).Error; err != nil {
 		return errors.WithStack(err)
 	}
 

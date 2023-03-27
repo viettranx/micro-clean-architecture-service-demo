@@ -7,11 +7,11 @@ import (
 	"github.com/viettranx/service-context/core"
 )
 
-func (store *mysqlStore) ListTasks(ctx context.Context, filter *entity.Filter, paging *core.Paging) ([]entity.Task, error) {
+func (repo *mysqlRepo) ListTasks(ctx context.Context, filter *entity.Filter, paging *core.Paging) ([]entity.Task, error) {
 
 	var tasks []entity.Task
 
-	db := store.db.
+	db := repo.db.
 		Table(entity.Task{}.TableName()).
 		Where("status <> ?", entity.StatusDeleted)
 

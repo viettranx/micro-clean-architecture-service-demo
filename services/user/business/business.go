@@ -9,7 +9,7 @@ import (
 type UserRepository interface {
 	GetUserById(ctx context.Context, id int) (*entity.User, error)
 	GetUsersByIds(ctx context.Context, ids []int) ([]entity.User, error)
-	InsertUser(ctx context.Context, data *entity.UserDataCreation) error
+	CreateNewUser(ctx context.Context, data *entity.UserDataCreation) error
 }
 
 type business struct {
@@ -68,7 +68,7 @@ func (biz *business) GetUsersByIds(ctx context.Context, ids []int) ([]entity.Use
 }
 
 func (biz *business) CreateNewUser(ctx context.Context, data *entity.UserDataCreation) error {
-	err := biz.repository.InsertUser(ctx, data)
+	err := biz.repository.CreateNewUser(ctx, data)
 
 	if err != nil {
 		return core.ErrInternalServerError.
