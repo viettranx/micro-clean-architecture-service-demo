@@ -24,7 +24,7 @@ func (api *api) ListTaskHdl() func(*gin.Context) {
 
 		rp.Paging.Process()
 
-		tasks, err := api.business.ListTasks(c.Request.Context(), &rp.Filter, &rp.Paging, "User")
+		tasks, err := api.business.ListTasks(c.Request.Context(), &rp.Filter, &rp.Paging)
 
 		if err != nil {
 			common.WriteErrorResponse(c, err)
