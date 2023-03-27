@@ -8,10 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func (store *mysqlStore) GetTaskById(ctx context.Context, id int) (*entity.Task, error) {
+func (repo *mysqlRepo) GetTaskById(ctx context.Context, id int) (*entity.Task, error) {
 	var data entity.Task
 
-	if err := store.db.
+	if err := repo.db.
 		Table(data.TableName()).
 		Where("id = ?", id).
 		First(&data).Error; err != nil {

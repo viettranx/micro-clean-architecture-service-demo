@@ -8,26 +8,26 @@ import (
 	"gorm.io/gorm"
 )
 
-type mysqlStore struct {
+type mysqlRepo struct {
 	db *gorm.DB
 }
 
-func NewMySQLStore(db *gorm.DB) *mysqlStore {
-	return &mysqlStore{db: db}
+func NewMySQLRepository(db *gorm.DB) *mysqlRepo {
+	return &mysqlRepo{db: db}
 }
 
-func (store *mysqlStore) AddNewAuth(ctx context.Context, data *entity.Auth) error {
-	if err := store.db.Table(data.TableName()).Create(data).Error; err != nil {
+func (repo *mysqlRepo) AddNewAuth(ctx context.Context, data *entity.Auth) error {
+	if err := repo.db.Table(data.TableName()).Create(data).Error; err != nil {
 		return errors.WithStack(err)
 	}
 
 	return nil
 }
 
-func (store *mysqlStore) GetAuth(ctx context.Context, email string) (*entity.Auth, error) {
+func (repo *mysqlRepo) GetAuth(ctx context.Context, email string) (*entity.Auth, error) {
 	var data entity.Auth
 
-	if err := store.db.
+	if err := repo.db.
 		Table(data.TableName()).
 		Where("email = ?", email).
 		First(&data).Error; err != nil {

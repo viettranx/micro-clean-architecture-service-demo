@@ -8,7 +8,7 @@ import (
 
 func (biz *business) UpdateTask(ctx context.Context, id int, data *entity.TaskDataUpdate) error {
 	// Get task data, without extra infos
-	task, err := biz.repository.GetTaskById(ctx, id)
+	task, err := biz.taskRepo.GetTaskById(ctx, id)
 
 	if err != nil {
 		if err == core.ErrRecordNotFound {
@@ -39,7 +39,7 @@ func (biz *business) UpdateTask(ctx context.Context, id int, data *entity.TaskDa
 			WithReason("Only update task with doing status")
 	}
 
-	if err := biz.repository.UpdateTask(ctx, id, data); err != nil {
+	if err := biz.taskRepo.UpdateTask(ctx, id, data); err != nil {
 		return core.ErrInternalServerError.
 			WithError(entity.ErrCannotUpdateTask.Error()).
 			WithDebug(err.Error())

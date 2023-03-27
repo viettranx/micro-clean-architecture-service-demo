@@ -16,7 +16,7 @@ func (api *api) GetTaskHdl() func(*gin.Context) {
 			return
 		}
 
-		data, err := api.business.GetTaskDetails(c.Request.Context(), int(uid.GetLocalID()), "User")
+		data, err := api.business.GetTaskById(c.Request.Context(), int(uid.GetLocalID()))
 
 		if err != nil {
 			common.WriteErrorResponse(c, err)

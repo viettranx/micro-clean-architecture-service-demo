@@ -8,7 +8,7 @@ import (
 
 func (biz *business) DeleteTask(ctx context.Context, id int) error {
 	// Get task data, without extra infos
-	task, err := biz.repository.GetTaskById(ctx, id)
+	task, err := biz.taskRepo.GetTaskById(ctx, id)
 
 	if err != nil {
 		if err == core.ErrRecordNotFound {
@@ -38,7 +38,7 @@ func (biz *business) DeleteTask(ctx context.Context, id int) error {
 			WithError(entity.ErrTaskDeleted.Error())
 	}
 
-	if err := biz.repository.DeleteTask(ctx, id); err != nil {
+	if err := biz.taskRepo.DeleteTask(ctx, id); err != nil {
 		return core.ErrInternalServerError.
 			WithError(entity.ErrCannotDeleteTask.Error()).
 			WithDebug(err.Error())

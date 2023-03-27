@@ -4,21 +4,59 @@
 
 > If you're very new to Clean Architecture, I recommend you check [more simple demo](https://github.com/viettranx/simple-clean-architecture-demo).
 
-This repo was built up with three services: **Task**, **User** and **Auth**. Each of them conforms **Clean Architecture** (just idea, not perfectly).
+This repo was built up with three services: **Task**, **User** and **Auth**. Each of them conforms **Clean Architecture**.
 
-The different is my **Storage Layer**. You might not see anything like this before.
+![Clean Architecture Overview](./statics/img/overview-clean-architecture.jpg)
+![Clean Architecture Flow](./statics/img/clean-architecture-flow.jpg)
 
-![Clean Architecture Overview](./statics/img/overview-clean-architecture.png)
-![Clean Architecture Flow](./statics/img/clean-architecture-flow.png)
+## Folder structure
+Let's focus on directories in [`/services`](./services):
 
-> In Microservices environment, service usually needs to aggregate data from the other services. That's why Storage Layer come to play its role.
+```
+services
+├── auth
+│   ├── business
+│   ├── entity
+│   ├── repository
+│   │   ├── mysql
+│   │   └── rpc
+│   └── transport
+│       ├── api
+│       └── rpc
+├── task
+│   ├── business
+│   ├── entity
+│   ├── repository
+│   │   ├── mysql
+│   │   └── rpc
+│   └── transport
+│       └── api
+└── user
+    ├── business
+    ├── entity
+    ├── repository
+    │   └── mysql
+    └── transport
+        ├── api
+        └── rpc
+```
 
-> You can use **Domain-Driven Design (DDD)** to solve this problem, of-course. But it's not my focus in this demo.
+Protobuf and generated files at [proto folder](./proto):
+
+```
+├── auth.proto
+├── pb
+│   ├── auth.pb.go
+│   ├── auth_grpc.pb.go
+│   ├── user.pb.go
+│   └── user_grpc.pb.go
+└── user.proto
+```
 
 ## Microservices in this demo
 
 Instead of separating to 3 repos on GitHub, I merged them to a single repo to give more transparent and convenience to build up the demo.
-But service is isolated with each others.
+But the services are isolated with each others.
 
 Service stacks: 
 - GIN (for HTTP service)
@@ -52,102 +90,6 @@ Some of main diagrams to demonstration how they work together:
 
 ### Fetch Tasks
 ![Fetch Task Diagram](./statics/img/get-tasks-diagram.png)
-
-## Folder structure
-Let's focus on [`services` folder](./services):
-
-```
-├── auth
-│   ├── business
-│   │   └── business.go
-│   ├── entity
-│   │   ├── auth.go
-│   │   ├── auth_vars.go
-│   │   ├── error.go
-│   │   └── validate.go
-│   ├── storage
-│   │   ├── mysql
-│   │   │   └── store.go
-│   │   └── rpc
-│   │       └── rpc_client.go
-│   └── transport
-│       ├── api
-│       │   └── api.go
-│       └── rpc
-│           └── auth_rpc.go
-├── task
-│   ├── business
-│   │   ├── business.go
-│   │   ├── create_new_task.go
-│   │   ├── delete_task.go
-│   │   ├── get_task_details.go
-│   │   ├── list_tasks.go
-│   │   └── update_task.go
-│   ├── entity
-│   │   ├── error.go
-│   │   ├── task.go
-│   │   ├── task_vars.go
-│   │   └── validate.go
-│   ├── repository
-│   │   ├── delete_task.go
-│   │   ├── get_task_by_id.go
-│   │   ├── insert_new_task.go
-│   │   ├── list_tasks.go
-│   │   ├── repo.go
-│   │   └── update_task.go
-│   ├── storage
-│   │   ├── mysql
-│   │   │   ├── delete_task.go
-│   │   │   ├── get_task.go
-│   │   │   ├── insert_task.go
-│   │   │   ├── list_task.go
-│   │   │   ├── store.go
-│   │   │   └── update_task.go
-│   │   └── rpc
-│   │       └── rpc_client.go
-│   └── transport
-│       └── api
-│           ├── api.go
-│           ├── create_task_hdl.go
-│           ├── delete_task_hdl.go
-│           ├── get_task_hdl.go
-│           ├── list_tasks_hdl.go
-│           └── update_task_hdl.go
-└── user
-    ├── business
-    │   └── business.go
-    ├── entity
-    │   ├── error.go
-    │   ├── user.go
-    │   ├── user_vars.go
-    │   └── validate.go
-    ├── storage
-    │   └── mysql
-    │       ├── get_user.go
-    │       ├── insert_user.go
-    │       └── store.go
-    └── transport
-        ├── api
-        │   └── api.go
-        └── rpc
-            └── user_rpc.go
-```
-
-> You may wonder why User and Auth Service have no `repository` folder.
-> Because User and Auth are `self-service`, mean they do not need to aggregate
-> data from other services. So, `repository` is omitted.
-
-Protobuf and generated files at [proto folder](./proto):
-
-```
-├── auth.proto
-├── pb
-│   ├── auth.pb.go
-│   ├── auth_grpc.pb.go
-│   ├── user.pb.go
-│   └── user_grpc.pb.go
-└── user.proto
-```
 
 ## How to run this demo
 

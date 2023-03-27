@@ -6,20 +6,27 @@ import (
 	"github.com/viettranx/service-context/core"
 )
 
-type Repository interface {
+type TaskRepository interface {
 	AddNewTask(ctx context.Context, data *entity.TaskDataCreation) error
 	UpdateTask(ctx context.Context, id int, data *entity.TaskDataUpdate) error
 	DeleteTask(ctx context.Context, id int) error
-	GetTaskById(ctx context.Context, id int, extras ...string) (*entity.Task, error)
-	ListTasks(ctx context.Context, filter *entity.Filter, paging *core.Paging, extras ...string) ([]entity.Task, error)
+	GetTaskById(ctx context.Context, id int) (*entity.Task, error)
+	ListTasks(ctx context.Context, filter *entity.Filter, paging *core.Paging) ([]entity.Task, error)
+}
+
+type UserRepository interface {
+	GetUsersByIds(ctx context.Context, ids []int) ([]core.SimpleUser, error)
+	GetUserById(ctx context.Context, id int) (*core.SimpleUser, error)
 }
 
 type business struct {
-	repository Repository
+	taskRepo TaskRepository
+	userRepo UserRepository
 }
 
-func NewBusiness(repository Repository) *business {
+func NewBusiness(taskRepo TaskRepository, userRepo UserRepository) *business {
 	return &business{
-		repository: repository,
+		taskRepo: taskRepo,
+		userRepo: userRepo,
 	}
 }

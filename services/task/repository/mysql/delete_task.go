@@ -6,9 +6,9 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (store *mysqlStore) DeleteTask(ctx context.Context, id int) error {
+func (repo *mysqlRepo) DeleteTask(ctx context.Context, id int) error {
 	// Soft delete
-	if err := store.db.Table(entity.Task{}.TableName()).
+	if err := repo.db.Table(entity.Task{}.TableName()).
 		Where("id = ?", id).
 		Updates(map[string]interface{}{
 			"status": entity.StatusDeleted,

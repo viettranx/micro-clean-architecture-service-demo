@@ -8,10 +8,10 @@ import (
 	"gorm.io/gorm"
 )
 
-func (store *mysqlStore) GetUsersByIds(ctx context.Context, ids []int) ([]entity.User, error) {
+func (repo *mysqlRepo) GetUsersByIds(ctx context.Context, ids []int) ([]entity.User, error) {
 	var result []entity.User
 
-	if err := store.db.
+	if err := repo.db.
 		Table(entity.User{}.TableName()).
 		Where("id in (?)", ids).
 		Find(&result).Error; err != nil {
@@ -21,10 +21,10 @@ func (store *mysqlStore) GetUsersByIds(ctx context.Context, ids []int) ([]entity
 	return result, nil
 }
 
-func (store *mysqlStore) GetUserById(ctx context.Context, id int) (*entity.User, error) {
+func (repo *mysqlRepo) GetUserById(ctx context.Context, id int) (*entity.User, error) {
 	var data entity.User
 
-	if err := store.db.
+	if err := repo.db.
 		Table(data.TableName()).
 		Where("id = ?", id).
 		First(&data).Error; err != nil {
